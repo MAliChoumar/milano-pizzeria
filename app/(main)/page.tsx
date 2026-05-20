@@ -6,7 +6,6 @@ import { motion, useInView } from 'framer-motion';
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 const HEADLINES = [
-  { line1: 'Frisch aus dem',   line2: 'Steinofen',     line3: '' },
   { line1: 'Originaler',       line2: 'Italienischer', line3: 'Geschmack' },
   { line1: 'Pizza wie',        line2: 'in Neapel',     line3: '' },
   { line1: 'Seit 2009',        line2: 'Duisburgs',     line3: 'Nr. 1' },
