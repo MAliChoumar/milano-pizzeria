@@ -6,6 +6,7 @@ import { motion, useInView } from 'framer-motion';
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 const HEADLINES = [
+  { line1: 'Frisch aus dem',   line2: 'Steinofen',     line3: '' },
   { line1: 'Originaler',       line2: 'Italienischer', line3: 'Geschmack' },
   { line1: 'Pizza wie',        line2: 'in Neapel',     line3: '' },
   { line1: 'Seit 2009',        line2: 'Duisburgs',     line3: 'Nr. 1' },
@@ -80,7 +81,7 @@ function HeroSection() {
         {/* Subtitle */}
         <motion.p initial={{ opacity:0 }} animate={mounted?{opacity:1}:{}} transition={{ duration:1, delay:0.38 }}
           style={{ fontSize:'clamp(14px,1.8vw,18px)', color:'rgba(245,240,232,0.6)', maxWidth:500, margin:'0 auto 44px', lineHeight:1.85, fontWeight:300, letterSpacing:'0.02em' }}>
-          Authentische Rezepte · Frische Zutaten aus Italien · Steinofen-Qualität
+          Authentische Rezepte · Frische Zutaten aus Italien
         </motion.p>
 
         {/* CTA */}
@@ -268,7 +269,7 @@ function PromotionsSection() {
             Online bestellen —<br /><em style={{ color:'#c9a84c' }}>10% Rabatt</em>
           </h2>
           <p style={{ fontSize:14, color:'rgba(245,240,232,0.42)', marginBottom:36, lineHeight:1.75, fontWeight:300 }}>
-            Über unsere Webseite bestellen und sofort 10% Rabatt erhalten. Lieferung frei Haus ab 10,00 €.
+            Über unsere Webseite bestellen und sofort 10% Rabatt erhalten. Lieferkosten nur 1,00 €.
           </p>
           <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:32 }}>
             {promos.map((p,i) => (
@@ -373,7 +374,7 @@ function LocationSection() {
               { icon:'📍', title:'Adresse',        body:'Spichernstr. 64\n47137 Duisburg' },
               { icon:'🕐', title:'Öffnungszeiten', body:'Mo–Fr: 12:00–22:30\nSa–So: 13:00–22:30' },
               { icon:'📞', title:'Telefon',        body:'0203 · 45 65 284\n0203 · 45 65 287' },
-              { icon:'🛵', title:'Lieferung',      body:'Ab 10,00 € kostenlos\nca. 30 Minuten' },
+              { icon:'🛵', title:'Lieferung',      body:'Lieferkosten nur 1,00 €\nca. 30 Minuten' },
             ].map(item => (
               <div key={item.title} style={{ background:'rgba(255,248,235,0.03)', border:'0.5px solid rgba(255,248,235,0.06)', borderRadius:14, padding:'14px' }}>
                 <div style={{ fontSize:18, marginBottom:6 }}>{item.icon}</div>

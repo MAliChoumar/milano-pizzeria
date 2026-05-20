@@ -84,7 +84,7 @@ const TIMELINE = [
   {
     year: '2020',
     title: 'Online-Bestellung',
-    text: 'Auch in schwierigen Zeiten stehen wir für unsere Gäste ein. Wir bauen den Lieferservice aus und bieten Online-Bestellung über Lieferando an — der Geschmack kommt zu Ihnen nach Hause.',
+    text: 'Auch in schwierigen Zeiten stehen wir für unsere Gäste ein. Wir bauen den Lieferservice aus und ermöglichen Online-Bestellung direkt über unsere Webseite — der Geschmack kommt zu Ihnen nach Hause.',
   },
   {
     year: '2026',

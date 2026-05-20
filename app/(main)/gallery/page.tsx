@@ -65,7 +65,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
   { id:'del-03', category:'delivery', src:'/gallery/delivery/del-03.png', alt:'Zwei Milano Lieferautos',              title:'Unser Fuhrpark',            caption:'Mehrere Fahrzeuge für schnelle Lieferung', span:'wide' },
   { id:'del-04', category:'delivery', src:'/gallery/delivery/del-04.png', alt:'VW Lieferfahrzeug grau Front',         title:'Pizza-Taxi Duisburg',       caption:'0203 45 65 284' },
   { id:'del-05', category:'delivery', src:'/gallery/delivery/del-05.png', alt:'VW Lieferfahrzeug grau Seite',         title:'Pizzeria Milano Meiderich',  caption:'In ganz Duisburg unterwegs', span:'tall' },
-  { id:'del-06', category:'delivery', src:'/gallery/delivery/del-06.png', alt:'VW Golf schwarz Lieferfahrzeug',       title:'Direkt zu Ihnen',           caption:'Lieferung frei Haus ab 10,00 €' },
+  { id:'del-06', category:'delivery', src:'/gallery/delivery/del-06.png', alt:'VW Golf schwarz Lieferfahrzeug',       title:'Direkt zu Ihnen',           caption:'Lieferkosten nur 1,00 €' },
   { id:'del-07', category:'delivery', src:'/gallery/delivery/del-07.png', alt:'Lieferflotte vor dem Restaurant',      title:'Unser Team in Bereitschaft', caption:'Vier Fahrzeuge · Schnellster Service', span:'wide' },
   { id:'del-08', category:'delivery', src:'/gallery/delivery/del-08.png', alt:'Zwei Lieferfahrzeuge von hinten',      title:'Frisch & Heiß geliefert',   caption:'Täglich ab 12:00 Uhr' },
 
@@ -1020,12 +1020,12 @@ function LieferandoCTA() {
         </h2>
 
         <p style={{ fontSize:'clamp(14px,1.8vw,17px)', color:'rgba(245,240,232,0.5)', lineHeight:1.8, marginBottom:36, fontWeight:300, maxWidth:420, margin:'0 auto 36px' }}>
-          Bestellen Sie bequem online über Lieferando — frisch zubereitet, direkt zu Ihnen nach Hause.
+          Bestellen Sie bequem online direkt über unsere Webseite — frisch zubereitet, direkt zu Ihnen nach Hause.
         </p>
 
         {/* Lieferando Button */}
         <motion.a
-          href="https://www.lieferando.de/speisekarte/pizzeria-milano-duisburg"
+          href="https://milanopizzeria-duisburg.de/order"
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={() => setHovered(true)}
@@ -1050,7 +1050,7 @@ function LieferandoCTA() {
           }}>
           {/* Lieferando-orange dot */}
           <span style={{ width:10, height:10, borderRadius:'50%', background:'#ff6400', flexShrink:0, boxShadow:'0 0 10px rgba(255,100,0,0.5)' }} />
-          Jetzt auf Lieferando bestellen
+          Jetzt online bestellen
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(245,240,232,0.5)" strokeWidth="2" strokeLinecap="round">
             <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
           </svg>
@@ -1058,7 +1058,7 @@ function LieferandoCTA() {
 
         {/* Subtle trust line */}
         <div style={{ display:'flex', gap:20, justifyContent:'center', alignItems:'center', marginTop:28, flexWrap:'wrap' }}>
-          {['🛵 Lieferung frei Haus ab 10,00 €', '⏱ ca. 30 Minuten', '📞 0203 · 45 65 284'].map(t => (
+          {['🛵 Lieferkosten nur 1,00 €', '⏱ ca. 30 Minuten', '📞 0203 · 45 65 284'].map(t => (
             <span key={t} style={{ fontSize:12, color:'rgba(245,240,232,0.28)', fontWeight:300 }}>{t}</span>
           ))}
         </div>

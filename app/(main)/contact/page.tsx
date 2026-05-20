@@ -83,7 +83,7 @@ export default function ContactPage() {
           {[
             { icon: '📞', label: 'Anrufen',           value: '0203 · 45 65 284\n0203 · 45 65 287', href: 'tel:+4920345652844',   color: '#6DA544' },
             { icon: '📍', label: 'Besuchen',           value: 'Spichernstr. 64\n47137 Duisburg',    href: 'https://maps.google.com/?q=Spichernstr+64+Duisburg', color: '#c9a84c' },
-            { icon: '🛵', label: 'Jetzt online bestellen', value: 'Lieferando',                    href: 'https://www.lieferando.de/speisekarte/pizzeria-milano-duisburg', color: '#ff6400' },
+            { icon: '🛵', label: 'Jetzt online bestellen', value: 'Direkt bestellen',             href: 'https://milanopizzeria-duisburg.de/order', color: '#ff6400' },
           ].map((item, i) => (
             <AnimIn key={item.label} delay={i * 0.1}>
               <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
@@ -115,7 +115,7 @@ export default function ContactPage() {
               {[
                 { icon: '📍', title: 'Adresse',       content: 'Spichernstr. 64\n47137 Duisburg' },
                 { icon: '🕐', title: 'Öffnungszeiten', content: 'Mo–Fr: 12:00 – 22:45 Uhr\nSa–So: 13:00 – 22:45 Uhr' },
-                { icon: '🛵', title: 'Liefergebiet',   content: 'Gesamtes Duisburg\nAb 10 € kostenlose Lieferung · ~30 Min.' },
+                { icon: '🛵', title: 'Liefergebiet',   content: 'Gesamtes Duisburg\nLieferkosten 1,00 € · ~30 Min.' },
                 { icon: '🚗', title: 'Parken',         content: 'Kostenlose Parkplätze\ndirekt vor dem Restaurant' },
               ].map(item => (
                 <div key={item.title} style={{ display: 'flex', gap: 14, padding: '16px', background: '#0d0d0d', border: '0.5px solid rgba(255,255,255,0.07)', borderRadius: 14, marginBottom: 12, transition: 'border-color 0.2s' }}

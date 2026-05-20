@@ -79,7 +79,7 @@ export const useCartStore = create<CartState>()(
 
       subtotal: () => get().items.reduce((s, i) => s + i.totalPrice, 0),
 
-      deliveryFee: () => 0,
+      deliveryFee: () => (get().deliveryMode === 'delivery' ? 1.00 : 0),
 
       total: () => {
         const sub = get().subtotal();

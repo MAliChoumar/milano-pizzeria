@@ -41,7 +41,7 @@ function MinOrderWarning({ total, onSwitch, onContinue }: { total: number; onSwi
           <div style={{ fontSize: 14, color: 'rgba(245,240,232,0.6)', marginBottom: 4 }}>Ihr aktueller Bestellwert</div>
           <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 700, color: '#c9a84c' }}>{total.toFixed(2)} €</div>
           <div style={{ fontSize: 13, color: 'rgba(245,240,232,0.4)', marginTop: 4 }}>
-            Mindestbestellwert für Lieferung: <strong style={{ color: '#F5F5F5' }}>10,00 €</strong>
+            Mindestbestellwert für Lieferung: <strong style={{ color: '#F5F5F5' }}>10,00 €</strong> · Lieferkosten: <strong style={{ color: '#F5F5F5' }}>1,00 €</strong>
           </div>
         </div>
         <p style={{ fontSize: 13, color: '#666', lineHeight: 1.7, marginBottom: 28 }}>
@@ -94,7 +94,7 @@ function CartStep({ onNext }: { onNext: () => void }) {
             <div style={{ fontSize: 14, fontWeight: 600, color: '#F5F5F5', marginBottom: 14 }}>Lieferart wählen</div>
             <div style={{ display: 'flex', gap: 12 }}>
               {[
-                { id: 'delivery', icon: '🛵', label: 'Lieferung',  sub: '~30 Min · kostenlos ab 10,00 €' },
+                { id: 'delivery', icon: '🛵', label: 'Lieferung',  sub: '~30 Min · Lieferkosten 1,00 €' },
                 { id: 'pickup',   icon: '🏪', label: 'Abholung',   sub: '~15 Min · kostenlos'             },
               ].map(m => (
                 <div key={m.id} onClick={() => setDeliveryMode(m.id as any)}
@@ -155,8 +155,8 @@ function CartStep({ onNext }: { onNext: () => void }) {
 
             {deliveryMode === 'delivery' && subtotal() < 10 && (
               <div style={{ background: 'rgba(201,168,76,0.08)', border: '0.5px solid rgba(201,168,76,0.2)', borderRadius: 10, padding: '10px 14px', marginBottom: 14, fontSize: 12, color: 'rgba(201,168,76,0.8)', lineHeight: 1.6 }}>
-                ⚠️ Lieferung ab <strong>10,00 €</strong> Mindestbestellwert<br />
-                <span style={{ color: '#666' }}>Noch {(10 - subtotal()).toFixed(2)} € bis zur kostenlosen Lieferung.</span>
+                ⚠️ Mindestbestellwert für Lieferung: <strong>10,00 €</strong><br />
+                <span style={{ color: '#666' }}>Lieferkosten: 1,00 €</span>
               </div>
             )}
 
@@ -165,7 +165,7 @@ function CartStep({ onNext }: { onNext: () => void }) {
               Weiter zu Kontaktdaten →
             </button>
             <div style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: '#444' }}>
-              🔒 Zahlung bei {deliveryMode === 'delivery' ? 'Lieferung' : 'Abholung'} · Lieferung kostenlos
+              🔒 Zahlung bei {deliveryMode === 'delivery' ? 'Lieferung · Lieferkosten 1,00 €' : 'Abholung'}
             </div>
           </div>
         </div>

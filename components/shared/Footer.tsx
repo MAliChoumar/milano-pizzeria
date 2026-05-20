@@ -18,7 +18,7 @@ const FOOTER_LINKS = {
     { label: 'Team',              href: '/about#team'     },
     { label: 'Galerie',           href: '/gallery'        },
     { label: 'Kontakt',           href: '/contact'        },
-    { label: 'Lieferando',        href: 'https://www.lieferando.de/speisekarte/pizzeria-milano-duisburg' },
+    { label: 'Online bestellen',  href: 'https://milanopizzeria-duisburg.de/order' },
     { label: 'Tisch reservieren', href: '/reservation'   },
   ],
   legal: [
@@ -82,7 +82,7 @@ function CallFloat() {
             {[
               { icon:'🕒', text:'Mo–Fr: 12:00 – 22:45 Uhr' },
               { icon:'🕒', text:'Sa–So: 13:00 – 22:45 Uhr' },
-              { icon:'🚚', text:'Lieferung frei Haus ab 10,00 €' },
+              { icon:'🚚', text:'Lieferkosten nur 1,00 €' },
               { icon:'📍', text:'Spichernstr. 64, 47137 Duisburg' },
             ].map(row => (
               <div key={row.text} style={{ display:'flex', alignItems:'center', gap:7, fontSize:11, color:'rgba(245,240,232,0.35)' }}>
@@ -118,7 +118,7 @@ export default function Footer() {
         <div style={{ display: 'flex', animation: 'ticker 30s linear infinite', whiteSpace: 'nowrap', gap: 60 }}>
           {[...Array(3)].map((_, i) => (
             <span key={i} style={{ display: 'inline-flex', gap: 60, flexShrink: 0 }}>
-              {['🍕 Frische Pizza täglich', '🍝 Original Italienische Küche', '⭐ 4.9 Google Rating', '🛵 Lieferung ab 10 € kostenlos', '📅 Tisch online reservieren', '📞 0203 · 45 65 284'].map(text => (
+              {['🍕 Frische Pizza täglich', '🍝 Original Italienische Küche', '⭐ 4.9 Google Rating', '🛵 Lieferkosten nur 1,00 €', '📅 Tisch online reservieren', '📞 0203 · 45 65 284'].map(text => (
                 <span key={text} style={{ fontSize: 13, color: '#555', fontWeight: 500 }}>{text}</span>
               ))}
             </span>

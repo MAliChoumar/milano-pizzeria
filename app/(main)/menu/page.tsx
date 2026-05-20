@@ -211,7 +211,7 @@ export default function MenuPage() {
         <div style={{ display:'inline-flex', gap:24, background:'rgba(109,165,68,0.08)', border:'0.5px solid rgba(109,165,68,0.2)', borderRadius:14, padding:'12px 24px', fontSize:13, color:'#888', flexWrap:'wrap', justifyContent:'center' }}>
           <span>🕐 Mo–Fr: 12:00–22:30</span>
           <span>🕐 Sa–So: 13:00–22:30</span>
-          <span>🛵 Kostenlos ab 10 €</span>
+          <span>🛵 Lieferkosten 1 €</span>
           <span>💰 10% Rabatt ab 20 €</span>
         </div>
       </section>
