@@ -66,9 +66,7 @@
     "app/api/stripe/webhook/route.ts": {
       "maxDuration": 60
     }
-  },
-
-  "env": {
-    "NEXT_PUBLIC_APP_URL": "@next_public_app_url"
   }
+
+  
 }
