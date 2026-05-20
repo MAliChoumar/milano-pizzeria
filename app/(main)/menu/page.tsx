@@ -94,7 +94,15 @@ function ItemCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
       whileHover={{ y:-4, borderColor:'rgba(255,255,255,0.15)', boxShadow:'0 16px 40px rgba(0,0,0,0.6)' }}>
 
       <div style={{ height:140, background:'linear-gradient(135deg,#0a1a00,#141414)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:64, position:'relative', overflow:'hidden' }}>
-        <motion.span whileHover={{ scale:1.15 }} style={{ filter:'drop-shadow(0 4px 12px rgba(0,0,0,0.6))', display:'block' }}>{item.emoji}</motion.span>
+        {item.category === 'schnitzel' ? (
+          <img
+            src="/menu/schnitzel.jpg"
+            alt="Schnitzel"
+            style={{ width:'100%', height:'100%', objectFit:'cover', display:'block', opacity:0.92 }}
+          />
+        ) : (
+          <motion.span whileHover={{ scale:1.15 }} style={{ filter:'drop-shadow(0 4px 12px rgba(0,0,0,0.6))', display:'block' }}>{item.emoji}</motion.span>
+        )}
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%)' }} />
         {item.number !== '-' && (
           <div style={{ position:'absolute', top:8, left:10, fontSize:10, color:'#555', fontWeight:600 }}>#{item.number}</div>
