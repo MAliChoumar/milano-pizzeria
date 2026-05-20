@@ -1,0 +1,74 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "regions": ["fra1"],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options",   "value": "nosniff" },
+        { "key": "X-Frame-Options",           "value": "DENY" },
+        { "key": "X-XSS-Protection",          "value": "1; mode=block" },
+        { "key": "Referrer-Policy",           "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",        "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=604800" }
+      ]
+    }
+  ],
+
+  "redirects": [
+    { "source": "/admin",       "destination": "/admin/dashboard", "permanent": false },
+    { "source": "/bestellen",   "destination": "/order",           "permanent": true },
+    { "source": "/reservierung","destination": "/reservation",     "permanent": true },
+    { "source": "/menu.html",   "destination": "/menu",            "permanent": true },
+    { "source": "/kontakt",     "destination": "/contact",         "permanent": true }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    }
+  ],
+
+  "crons": [
+    {
+      "path": "/api/cron/reminders",
+      "schedule": "0 10 * * *"
+    }
+  ],
+
+  "functions": {
+    "app/api/**": {
+      "maxDuration": 30
+    },
+    "app/api/stripe/webhook/route.ts": {
+      "maxDuration": 60
+    }
+  },
+
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "@next_public_app_url"
+  }
+}
