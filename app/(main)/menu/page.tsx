@@ -136,7 +136,7 @@ function getItemImage(item: MenuItem): string | null {
   return null; // keep emoji for vorspeisen, getraenke, angebote
 }
 
-
+function ItemCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
   const minPrice = Math.min(...item.sizes.map(s => s.price));
   const maxPrice = Math.max(...item.sizes.map(s => s.price));
   const priceStr = item.sizes.length > 1 ? `ab ${minPrice.toFixed(2)} €` : `${minPrice.toFixed(2)} €`;
