@@ -84,7 +84,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
 ];
 
 const MENU_PAGES: MenuPage[] = [
-  { id:'menu-01', src:'/menu/menu-01.png', label:'Deckblatt & Angebote',                pageNumber:1  },
+  { id:'menu-01', src:'/flyer.png', label:'Deckblatt & Angebote',                pageNumber:1  },
   { id:'menu-08', src:'/menu/menu-08.png', label:'Pizzen Nr. 01–24',                    pageNumber:2  },
   { id:'menu-07', src:'/menu/menu-07.png', label:'Pizzen Nr. 25–50 & Vegetarisch',      pageNumber:3  },
   { id:'menu-05', src:'/menu/menu-05.png', label:'Vorspeisen & Spaghetti (51–65)',       pageNumber:4  },
