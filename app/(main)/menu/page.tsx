@@ -82,7 +82,61 @@ function ItemModal({ item, onClose, onAdd }: { item: MenuItem; onClose: () => vo
 }
 
 // ─── Item Card ────────────────────────────────────────────────────────────────
-function ItemCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
+// ─── Map each menu item to its real food photo ────────────────────────────────
+function getItemImage(item: MenuItem): string | null {
+  const n   = item.name.toLowerCase();
+  const cat = item.category;
+
+  // SCHNITZEL — existing photo, unchanged
+  if (cat === 'schnitzel')      return '/menu/schnitzel.jpg';
+
+  // PIZZA
+  if (cat === 'pizza')          return '/menu/pizza.jpg';
+
+  // SALATE
+  if (cat === 'salate')         return '/menu/salat.jpg';
+
+  // REIS
+  if (cat === 'reis')           return '/menu/reis.jpg';
+
+  // PIZZABRÖTCHEN
+  if (cat === 'pizzabroetchen') return '/menu/pizzabroetchen.jpg';
+
+  // HÄHNCHEN (category)
+  if (cat === 'haehnchen')      return '/menu/haehnchen.jpg';
+
+  // FINGERFOODS — by item name
+  if (cat === 'fingerfoods') {
+    if (n.includes('pommes') || n.includes('kroketten')) return '/menu/pommes.jpg';
+    if (n.includes('gratin'))                            return '/menu/uberbackener.jpg';
+    if (n.includes('chicken') || n.includes('wing'))     return '/menu/haehnchen.jpg';
+    return null;
+  }
+
+  // NUDELN — specific pasta type (order matters)
+  if (cat === 'nudeln') {
+    if (n.includes('spaghetti'))   return '/menu/spaghetti.jpg';
+    if (n.includes('penne'))       return '/menu/penne.jpg';
+    if (n.includes('rigatoni'))    return '/menu/rigatoni.jpg';
+    if (n.includes('tagliatelle')) return '/menu/tagliatelle.jpg';
+    if (n.includes('tortellini'))  return '/menu/tortellini.jpg';
+    if (n.includes('gnocchi'))     return '/menu/gnocchi.jpg';
+    return null;
+  }
+
+  // AL FORNO — by dish name, most specific first
+  if (cat === 'alforno') {
+    if (n.includes('lasagne'))              return '/menu/lasagne.jpg';
+    if (n.includes('tortellini'))           return '/menu/tortellini.jpg';
+    if (n.includes('penne') || n.includes('penna')) return '/menu/penne.jpg';
+    if (n.includes('rigatoni'))             return '/menu/rigatoni.jpg';
+    return '/menu/uberbackener.jpg'; // Tris di Pasta & other baked dishes
+  }
+
+  return null; // keep emoji for vorspeisen, getraenke, angebote
+}
+
+
   const minPrice = Math.min(...item.sizes.map(s => s.price));
   const maxPrice = Math.max(...item.sizes.map(s => s.price));
   const priceStr = item.sizes.length > 1 ? `ab ${minPrice.toFixed(2)} €` : `${minPrice.toFixed(2)} €`;
@@ -94,10 +148,10 @@ function ItemCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
       whileHover={{ y:-4, borderColor:'rgba(255,255,255,0.15)', boxShadow:'0 16px 40px rgba(0,0,0,0.6)' }}>
 
       <div style={{ height:140, background:'linear-gradient(135deg,#0a1a00,#141414)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:64, position:'relative', overflow:'hidden' }}>
-        {item.category === 'schnitzel' ? (
+        {getItemImage(item) ? (
           <img
-            src="/menu/schnitzel.jpg"
-            alt="Schnitzel"
+            src={getItemImage(item)!}
+            alt={item.name}
             style={{ width:'100%', height:'100%', objectFit:'cover', display:'block', opacity:0.92 }}
           />
         ) : (
