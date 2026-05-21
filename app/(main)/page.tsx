@@ -86,7 +86,7 @@ function HeroSection() {
         {/* CTA */}
         <motion.div initial={{ opacity:0, y:18 }} animate={mounted?{opacity:1,y:0}:{}} transition={{ duration:0.9, delay:0.52 }}
           style={{ display:'flex', gap:14, justifyContent:'center', flexWrap:'wrap' }}>
-          <Link href="/order" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'16px 38px', borderRadius:100, fontSize:15, fontWeight:600, textDecoration:'none', transition:'all 0.3s', boxShadow:'0 8px 32px rgba(109,165,68,0.28)', letterSpacing:'0.2px' }}
+          <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'16px 38px', borderRadius:100, fontSize:15, fontWeight:600, textDecoration:'none', transition:'all 0.3s', boxShadow:'0 8px 32px rgba(109,165,68,0.28)', letterSpacing:'0.2px' }}
             onMouseEnter={e=>{ (e.currentTarget as HTMLElement).style.background='#7ec44f'; (e.currentTarget as HTMLElement).style.transform='translateY(-2px)'; }}
             onMouseLeave={e=>{ (e.currentTarget as HTMLElement).style.background='#6DA544'; (e.currentTarget as HTMLElement).style.transform='none'; }}>
             Jetzt bestellen
@@ -294,7 +294,7 @@ function PromotionsSection() {
             </div>
           </a>
           <div style={{ display:'flex', gap:10 }}>
-            <Link href="/order" style={{ flex:1, textAlign:'center', background:'#6DA544', color:'#fff', padding:'14px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', transition:'all 0.25s' }}
+            <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:'center', background:'#6DA544', color:'#fff', padding:'14px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', transition:'all 0.25s' }}
               onMouseEnter={e=>(e.currentTarget as HTMLElement).style.background='#7ec44f'} onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background='#6DA544'}>
               Online bestellen
             </Link>

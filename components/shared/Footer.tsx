@@ -7,7 +7,7 @@ import Link from 'next/link';
 const FOOTER_LINKS = {
   restaurant: [
     { label: 'Speisekarte',       href: '/menu'        },
-    { label: 'Online bestellen',  href: '/order'       },
+    { label: 'Online bestellen',  href: 'https://milanopizzeria-duisburg.de/' },
     { label: 'Tisch reservieren', href: '/reservation' },
     { label: 'Galerie',           href: '/gallery'     },
     { label: 'Über uns',          href: '/about'       },
@@ -18,7 +18,7 @@ const FOOTER_LINKS = {
     { label: 'Team',              href: '/about#team'     },
     { label: 'Galerie',           href: '/gallery'        },
     { label: 'Kontakt',           href: '/contact'        },
-    { label: 'Online bestellen',  href: 'https://milanopizzeria-duisburg.de/order' },
+    { label: 'Online bestellen',  href: 'https://milanopizzeria-duisburg.de/' },
     { label: 'Tisch reservieren', href: '/reservation'   },
   ],
   legal: [

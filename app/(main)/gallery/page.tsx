@@ -1025,7 +1025,7 @@ function LieferandoCTA() {
 
         {/* Lieferando Button */}
         <motion.a
-          href="https://milanopizzeria-duisburg.de/order"
+          href="https://milanopizzeria-duisburg.de/"
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={() => setHovered(true)}

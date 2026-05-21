@@ -17,7 +17,7 @@ const NAV_LINKS: NavLink[] = [
   { href: '/',            label: 'Home',          icon: '🏠' },
   { href: '/menu',        label: 'Speisekarte',    icon: '🍕' },
   { href: '/reservation', label: 'Reservieren',    icon: '📅' },
-  { href: '/order',       label: 'Bestellen',      icon: '🛵', badge: 'Online' },
+  { href: 'https://milanopizzeria-duisburg.de/', label: 'Bestellen', icon: '🛵', badge: 'Online' },
   { href: '/gallery',     label: 'Galerie',        icon: '🖼️' },
   { href: '/about',       label: 'Über uns',       icon: '🍴' },
   { href: '/contact',     label: 'Kontakt',        icon: '📞' },

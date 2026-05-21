@@ -287,7 +287,7 @@ export default function MenuPage() {
             onFocus={e => (e.target.style.borderColor='#6DA544')} onBlur={e => (e.target.style.borderColor='rgba(255,255,255,0.14)')} />
           {searchQuery && <button onClick={() => setSearchQuery('')} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:16 }}>✕</button>}
         </div>
-        <a href="/order" style={{ display:'flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'11px 20px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', whiteSpace:'nowrap', transition:'all 0.2s', flexShrink:0 }}
+        <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'11px 20px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', whiteSpace:'nowrap', transition:'all 0.2s', flexShrink:0 }}
           onMouseEnter={e => (e.currentTarget.style.background='#8bc34a')} onMouseLeave={e => (e.currentTarget.style.background='#6DA544')}>
           🛒 Warenkorb {itemCount() > 0 && <span style={{ background:'#D62828', color:'#fff', fontSize:11, fontWeight:700, minWidth:20, height:20, borderRadius:50, display:'flex', alignItems:'center', justifyContent:'center', padding:'0 5px' }}>{itemCount()}</span>}
         </a>
