@@ -90,7 +90,7 @@ function HeroSection() {
             onMouseEnter={e=>{ (e.currentTarget as HTMLElement).style.background='#7ec44f'; (e.currentTarget as HTMLElement).style.transform='translateY(-2px)'; }}
             onMouseLeave={e=>{ (e.currentTarget as HTMLElement).style.background='#6DA544'; (e.currentTarget as HTMLElement).style.transform='none'; }}>
             Jetzt bestellen
-          </Link>
+          </a>
           <Link href="/reservation" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(255,248,235,0.07)', color:'rgba(245,240,232,0.9)', padding:'16px 38px', borderRadius:100, fontSize:15, fontWeight:400, textDecoration:'none', border:'0.5px solid rgba(255,248,235,0.22)', transition:'all 0.3s', letterSpacing:'0.2px' }}
             onMouseEnter={e=>{ (e.currentTarget as HTMLElement).style.background='rgba(255,248,235,0.12)'; }}
             onMouseLeave={e=>{ (e.currentTarget as HTMLElement).style.background='rgba(255,248,235,0.07)'; }}>
@@ -297,7 +297,7 @@ function PromotionsSection() {
             <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer" style={{ flex:1, textAlign:'center', background:'#6DA544', color:'#fff', padding:'14px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', transition:'all 0.25s' }}
               onMouseEnter={e=>(e.currentTarget as HTMLElement).style.background='#7ec44f'} onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background='#6DA544'}>
               Online bestellen
-            </Link>
+            </a>
             <Link href="/reservation" style={{ flex:1, textAlign:'center', background:'transparent', color:'rgba(245,240,232,0.65)', border:'0.5px solid rgba(255,248,235,0.16)', padding:'14px', borderRadius:100, fontSize:14, textDecoration:'none', transition:'all 0.25s' }}
               onMouseEnter={e=>(e.currentTarget as HTMLElement).style.background='rgba(255,248,235,0.06)'} onMouseLeave={e=>(e.currentTarget as HTMLElement).style.background='transparent'}>
               Tisch reservieren
