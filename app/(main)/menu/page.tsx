@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MENU_ITEMS, CATEGORIES, type MenuItem } from '@/lib/data/menu';
-import { useCartStore } from '@/store/cartStore';
 
 // ─── Modal Artikel ────────────────────────────────────────────────────────────
-function ItemModal({ item, onClose, onAdd }: { item: MenuItem; onClose: () => void; onAdd: (item: MenuItem, sizeIdx: number, qty: number) => void }) {
+function ItemModal({ item, onClose }: { item: MenuItem; onClose: () => void }) {
   const [sizeIdx, setSizeIdx] = useState(0);
-  const [qty, setQty]         = useState(1);
-  const price = item.sizes[sizeIdx].price * qty;
+  const price = item.sizes[sizeIdx].price;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -56,24 +54,14 @@ function ItemModal({ item, onClose, onAdd }: { item: MenuItem; onClose: () => vo
             </div>
           )}
 
-          {/* Menge */}
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
-            <div style={{ fontSize:12, fontWeight:600, color:'#888', textTransform:'uppercase', letterSpacing:'0.08em' }}>Menge</div>
-            <div style={{ display:'flex', alignItems:'center', gap:0 }}>
-              <button onClick={() => setQty(q => Math.max(1,q-1))} style={{ background:'#1c1c1c', border:'0.5px solid rgba(255,255,255,0.1)', color:'#F5F5F5', width:36, height:36, borderRadius:'10px 0 0 10px', cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center' }}>−</button>
-              <div style={{ background:'#1c1c1c', borderTop:'0.5px solid rgba(255,255,255,0.1)', borderBottom:'0.5px solid rgba(255,255,255,0.1)', width:44, height:36, display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, fontWeight:700, color:'#F5F5F5' }}>{qty}</div>
-              <button onClick={() => setQty(q => q+1)} style={{ background:'#1c1c1c', border:'0.5px solid rgba(255,255,255,0.1)', color:'#F5F5F5', width:36, height:36, borderRadius:'0 10px 10px 0', cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center' }}>+</button>
-            </div>
-          </div>
-
-          {/* Footer */}
+          {/* Footer — price + external order button */}
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:16, borderTop:'0.5px solid rgba(255,255,255,0.08)' }}>
             <span style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700, color:'#c9a84c' }}>{price.toFixed(2)} €</span>
-            <button onClick={() => onAdd(item, sizeIdx, qty)}
-              style={{ background:'#6DA544', color:'#fff', border:'none', padding:'14px 28px', borderRadius:100, fontSize:15, fontWeight:600, cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s' }}
+            <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer"
+              style={{ background:'#6DA544', color:'#fff', border:'none', padding:'14px 28px', borderRadius:100, fontSize:15, fontWeight:600, cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:8 }}
               onMouseEnter={e => (e.currentTarget.style.background='#8bc34a')} onMouseLeave={e => (e.currentTarget.style.background='#6DA544')}>
-              🛒 In den Warenkorb
-            </button>
+              🛒 Jetzt bestellen
+            </a>
           </div>
         </div>
       </motion.div>
@@ -174,19 +162,9 @@ function ItemCard({ item, onClick }: { item: MenuItem; onClick: () => void }) {
         </div>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
           <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:700, color:'#c9a84c' }}>{priceStr}</div>
-          <div style={{ background:'#6DA544', width:32, height:32, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, color:'#fff', flexShrink:0 }}>+</div>
+          <div style={{ background:'rgba(109,165,68,0.15)', border:'0.5px solid rgba(109,165,68,0.3)', width:32, height:32, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, color:'#6DA544', flexShrink:0 }}>›</div>
         </div>
       </div>
-    </motion.div>
-  );
-}
-
-// ─── Toast ───────────────────────────────────────────────────────────────────
-function Toast({ msg, visible }: { msg: string; visible: boolean }) {
-  return (
-    <motion.div initial={{ y:80, opacity:0 }} animate={visible?{ y:0, opacity:1 }:{ y:80, opacity:0 }}
-      style={{ position:'fixed', bottom:28, left:'50%', transform:'translateX(-50%)', background:'#0d0d0d', border:'0.5px solid #6DA544', color:'#F5F5F5', padding:'12px 24px', borderRadius:100, fontSize:14, fontWeight:500, zIndex:900, whiteSpace:'nowrap', boxShadow:'0 8px 32px rgba(0,0,0,0.6)', display:'flex', alignItems:'center', gap:8 }}>
-      ✅ {msg}
     </motion.div>
   );
 }
@@ -196,14 +174,7 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery,    setSearchQuery]    = useState('');
   const [selectedItem,   setSelectedItem]   = useState<MenuItem | null>(null);
-  const [toast,          setToast]          = useState({ msg:'', visible:false });
-  const { addItem, itemCount } = useCartStore();
   const searchRef = useRef<HTMLInputElement>(null);
-
-  // Rehydrate Zustand persist store after client mount (prevents SSR hydration mismatch)
-  useEffect(() => {
-    useCartStore.persist.rehydrate();
-  }, []);
 
   // Filtern
   const filtered = useMemo(() => {
@@ -231,32 +202,6 @@ export default function MenuPage() {
     }, {} as Record<string, MenuItem[]>);
   }, [filtered, activeCategory]);
 
-  function showToast(msg: string) {
-    setToast({ msg, visible:true });
-    setTimeout(() => setToast(t => ({ ...t, visible:false })), 2500);
-  }
-
-  function handleAdd(item: MenuItem, sizeIdx: number, qty: number) {
-    const size  = item.sizes[sizeIdx];
-    const key   = `${item.id}_${size.name}`;
-    const extra = 0;
-    for (let i = 0; i < qty; i++) {
-      addItem({
-        key,
-        itemId:     item.id,
-        name:       item.name,
-        emoji:      item.emoji,
-        sizeName:   size.name,
-        sizePrice:  size.price,
-        extras:     [],
-        quantity:   1,
-        totalPrice: size.price,
-      });
-    }
-    setSelectedItem(null);
-    showToast(`${item.name} zum Warenkorb hinzugefügt`);
-  }
-
   const totalItems = MENU_ITEMS.length;
 
   return (
@@ -278,7 +223,7 @@ export default function MenuPage() {
         </div>
       </section>
 
-      {/* Suche + Warenkorb */}
+      {/* Suche + Bestellen */}
       <div style={{ padding:'0 clamp(20px,5vw,60px) 24px', display:'flex', gap:12, alignItems:'center', position:'sticky', top:72, zIndex:90, background:'rgba(5,5,5,0.95)', backdropFilter:'blur(12px)', paddingTop:16 }}>
         <div style={{ flex:1, position:'relative' }}>
           <span style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', fontSize:16, color:'#555' }}>🔍</span>
@@ -287,9 +232,10 @@ export default function MenuPage() {
             onFocus={e => (e.target.style.borderColor='#6DA544')} onBlur={e => (e.target.style.borderColor='rgba(255,255,255,0.14)')} />
           {searchQuery && <button onClick={() => setSearchQuery('')} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:16 }}>✕</button>}
         </div>
-        <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'11px 20px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', whiteSpace:'nowrap', transition:'all 0.2s', flexShrink:0 }}
+        <a href="https://milanopizzeria-duisburg.de/" target="_blank" rel="noopener noreferrer"
+          style={{ display:'flex', alignItems:'center', gap:8, background:'#6DA544', color:'#fff', padding:'11px 20px', borderRadius:100, fontSize:14, fontWeight:600, textDecoration:'none', whiteSpace:'nowrap', transition:'all 0.2s', flexShrink:0 }}
           onMouseEnter={e => (e.currentTarget.style.background='#8bc34a')} onMouseLeave={e => (e.currentTarget.style.background='#6DA544')}>
-          🛒 Warenkorb {itemCount() > 0 && <span style={{ background:'#D62828', color:'#fff', fontSize:11, fontWeight:700, minWidth:20, height:20, borderRadius:50, display:'flex', alignItems:'center', justifyContent:'center', padding:'0 5px' }}>{itemCount()}</span>}
+          🛒 Online bestellen
         </a>
       </div>
 
@@ -354,11 +300,8 @@ export default function MenuPage() {
 
       {/* Modal */}
       <AnimatePresence>
-        {selectedItem && <ItemModal item={selectedItem} onClose={() => setSelectedItem(null)} onAdd={handleAdd} />}
+        {selectedItem && <ItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />}
       </AnimatePresence>
-
-      {/* Toast */}
-      <Toast msg={toast.msg} visible={toast.visible} />
     </main>
   );
 }

@@ -23,26 +23,9 @@ const NAV_LINKS: NavLink[] = [
   { href: '/contact',     label: 'Kontakt',        icon: '📞' },
 ];
 
-// ─── Cart Store (simple zustand-free version) ─────────────────────────────────
-let cartItemCount = 0;
-const cartListeners: Array<(count: number) => void> = [];
-export function updateCartCount(n: number) {
-  cartItemCount = n;
-  cartListeners.forEach(fn => fn(n));
-}
-function useCartCount() {
-  const [count, setCount] = useState(cartItemCount);
-  useEffect(() => {
-    cartListeners.push(setCount);
-    return () => { const i = cartListeners.indexOf(setCount); if (i > -1) cartListeners.splice(i, 1); };
-  }, []);
-  return count;
-}
-
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 export default function Navbar() {
   const pathname      = usePathname();
-  const cartCount     = useCartCount();
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -218,51 +201,6 @@ export default function Navbar() {
           >
             {searchOpen ? '✕' : '🔍'}
           </button>
-
-          {/* Cart Button */}
-          <Link
-            href="/order"
-            aria-label={`Warenkorb — ${cartCount} Artikel`}
-            style={{
-              display:        'flex',
-              alignItems:     'center',
-              gap:            8,
-              background:     '#6DA544',
-              border:         'none',
-              borderRadius:   100,
-              padding:        '9px 18px',
-              fontSize:       13,
-              fontWeight:     600,
-              color:          '#fff',
-              textDecoration: 'none',
-              cursor:         'pointer',
-              transition:     'all 0.25s',
-              position:       'relative',
-              flexShrink:     0,
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#8bc34a'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#6DA544'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
-          >
-            <span aria-hidden="true">🛒</span>
-            <span className="hide-small">Warenkorb</span>
-            {cartCount > 0 && (
-              <span style={{
-                background:    '#D62828',
-                color:         '#fff',
-                fontSize:      10,
-                fontWeight:    700,
-                minWidth:      18,
-                height:        18,
-                borderRadius:  50,
-                display:       'flex',
-                alignItems:    'center',
-                justifyContent: 'center',
-                padding:       '0 5px',
-              }}>
-                {cartCount > 99 ? '99+' : cartCount}
-              </span>
-            )}
-          </Link>
 
           {/* Mobile Menu Toggle */}
           <button
