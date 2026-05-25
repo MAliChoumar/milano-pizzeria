@@ -95,8 +95,7 @@ export const metadata: Metadata = {
     apple:    '/favicon.svg',
     shortcut: '/favicon.svg',
   },
-  },
-  
+
   manifest: '/manifest.json',
   
   other: {
