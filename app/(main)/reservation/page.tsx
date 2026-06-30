@@ -60,7 +60,6 @@ export default function ReservationPage() {
   const [notes,      setNotes]      = useState('');
   const [errors,     setErrors]     = useState<Record<string,boolean>>({});
   const [loading,    setLoading]    = useState(false);
-  const [resRef,     setResRef]     = useState('');
   const [submitErr,  setSubmitErr]  = useState('');
 
   // Calendar
@@ -99,21 +98,37 @@ export default function ReservationPage() {
   async function submit() {
     setLoading(true);
     setSubmitErr('');
-    try {
-      const res = await fetch('/api/reservations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, date: selDate, time: selTime, persons: guests, occasion, notes }),
-      });
-      const json = await res.json();
-      if (!res.ok) { setSubmitErr(json.error || 'Fehler beim Speichern.'); setLoading(false); return; }
-      setResRef(json.reservation_code);
-      setStep(5);
-    } catch {
-      setSubmitErr('Netzwerkfehler. Bitte versuchen Sie es erneut.');
-    } finally {
-      setLoading(false);
+
+    const dateFormatted = selDate
+      ? new Date(selDate + 'T12:00:00').toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' })
+      : '';
+
+    const message =
+`🍕 Neue Tischreservierung – Milano Pizzeria Duisburg
+
+👤 Name: ${name}
+📞 Telefon: ${phone}
+📅 Datum: ${dateFormatted}
+🕐 Uhrzeit: ${selTime} Uhr
+👥 Personen: ${guests}
+🎉 Anlass: ${occ?.label || 'Sonstiges'}
+📝 Hinweise: ${notes || '–'}
+
+Vielen Dank.
+Ich möchte diesen Tisch verbindlich reservieren.
+Bitte bestätigen Sie meine Reservierung.`;
+
+    const whatsappUrl = `https://wa.me/491739135988?text=${encodeURIComponent(message)}`;
+    const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+    setLoading(false);
+
+    if (!win) {
+      setSubmitErr('WhatsApp konnte nicht automatisch geöffnet werden. Bitte erlauben Sie Pop-ups für diese Seite und versuchen Sie es erneut. Ihre Angaben bleiben erhalten.');
+      return;
     }
+
+    setStep(5);
   }
 
   function reset() {
@@ -421,13 +436,15 @@ export default function ReservationPage() {
                   style={{ width:96, height:96, borderRadius:'50%', background:'rgba(109,165,68,0.15)', border:'2px solid #6DA544', display:'flex', alignItems:'center', justifyContent:'center', fontSize:44, margin:'0 auto 24px' }}>
                   ✅
                 </motion.div>
-                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:30, fontWeight:700, color:'#F5F5F5', marginBottom:10 }}>Reservierung bestätigt!</h2>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:30, fontWeight:700, color:'#F5F5F5', marginBottom:10 }}>WhatsApp wurde geöffnet</h2>
                 <p style={{ fontSize:15, color:'#888', marginBottom:24, lineHeight:1.7 }}>
-                  Vielen Dank, <strong style={{ color:'#F5F5F5' }}>{name}</strong>!<br />Wir freuen uns auf Ihren Besuch.
+                  Vielen Dank, <strong style={{ color:'#F5F5F5' }}>{name}</strong>!<br />
+                  Bitte senden Sie die vorausgefüllte Nachricht in WhatsApp ab,<br />
+                  damit wir Ihre Reservierung bestätigen können.
                 </p>
                 <div style={{ background:'#0d0d0d', border:'0.5px solid #6DA544', borderRadius:14, display:'inline-block', padding:'12px 28px', marginBottom:24 }}>
-                  <div style={{ fontSize:11, color:'#555', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:4 }}>Reservierungsnummer</div>
-                  <div style={{ fontFamily:'monospace', fontSize:20, fontWeight:700, color:'#6DA544', letterSpacing:'3px' }}>{resRef}</div>
+                  <div style={{ fontSize:11, color:'#555', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:4 }}>Nächster Schritt</div>
+                  <div style={{ fontSize:14, fontWeight:600, color:'#6DA544' }}>Nachricht in WhatsApp absenden</div>
                 </div>
                 <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
                   <button onClick={reset} style={{ background:'#6DA544', color:'#fff', border:'none', padding:'12px 28px', borderRadius:100, fontSize:14, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
