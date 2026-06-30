@@ -95,7 +95,7 @@ export default function ReservationPage() {
     return Object.keys(e).length === 0;
   }
 
-  async function submit() {
+  function submit() {
     setLoading(true);
     setSubmitErr('');
 
@@ -119,16 +119,9 @@ Ich möchte diesen Tisch verbindlich reservieren.
 Bitte bestätigen Sie meine Reservierung.`;
 
     const whatsappUrl = `https://wa.me/491739135988?text=${encodeURIComponent(message)}`;
-    const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-
-    setLoading(false);
-
-    if (!win) {
-      setSubmitErr('WhatsApp konnte nicht automatisch geöffnet werden. Bitte erlauben Sie Pop-ups für diese Seite und versuchen Sie es erneut. Ihre Angaben bleiben erhalten.');
-      return;
-    }
 
     setStep(5);
+    window.location.href = whatsappUrl;
   }
 
   function reset() {
