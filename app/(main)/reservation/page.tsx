@@ -18,7 +18,6 @@ const OCCASIONS = [
 
 const LUNCH_SLOTS  = ['11:30','12:00','12:30','13:00','13:30','14:00','14:30'];
 const DINNER_SLOTS = ['17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30'];
-const FULL_SLOTS   = ['12:00','19:00','20:00'];
 
 const MONTH_NAMES = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const DAY_NAMES   = ['Mo','Di','Mi','Do','Fr','Sa','So'];
@@ -76,6 +75,15 @@ export default function ReservationPage() {
   }
   function isClosed(d: number) {
     return new Date(dateStr(d) + 'T12:00:00').getDay() === 0; // Sonntag
+  }
+
+  // Returns true if the time slot is in the past for today's date
+  function isSlotPast(slot: string): boolean {
+    const todayStr = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}-${String(new Date().getDate()).padStart(2,'0')}`;
+    if (selDate !== todayStr) return false;
+    const [slotH, slotM] = slot.split(':').map(Number);
+    const now = new Date();
+    return slotH * 60 + slotM <= now.getHours() * 60 + now.getMinutes();
   }
 
   function prevMonth() {
@@ -285,12 +293,12 @@ Bitte bestätigen Sie meine Reservierung.`;
                     <div style={{ fontSize:13, fontWeight:600, color:'#F5F5F5', marginBottom:12 }}>🕐 Mittagszeit</div>
                     <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(72px,1fr))', gap:8, marginBottom:16 }}>
                       {LUNCH_SLOTS.map(t => {
-                        const full = FULL_SLOTS.includes(t);
+                        const past = isSlotPast(t);
                         return (
-                          <div key={t} onClick={() => !full && setSelTime(t)}
-                            style={{ padding:'9px 4px', borderRadius:10, border:`0.5px solid ${selTime===t?'#6DA544':full?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.1)'}`, background:selTime===t?'rgba(109,165,68,0.12)':'transparent', cursor:full?'not-allowed':'pointer', textAlign:'center', opacity:full?0.4:1, transition:'all 0.15s' }}>
+                          <div key={t} onClick={() => !past && setSelTime(t)}
+                            style={{ padding:'9px 4px', borderRadius:10, border:`0.5px solid ${selTime===t?'#6DA544':past?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.1)'}`, background:selTime===t?'rgba(109,165,68,0.12)':'transparent', cursor:past?'not-allowed':'pointer', textAlign:'center', opacity:past?0.4:1, transition:'all 0.15s' }}>
                             <div style={{ fontSize:13, fontWeight:600, color:selTime===t?'#6DA544':'#F5F5F5' }}>{t}</div>
-                            <div style={{ fontSize:10, color:'#555', marginTop:2 }}>{full?'Voll':'Frei'}</div>
+                            <div style={{ fontSize:10, color:'#555', marginTop:2 }}>{past?'Vergangen':'Frei'}</div>
                           </div>
                         );
                       })}
@@ -298,12 +306,12 @@ Bitte bestätigen Sie meine Reservierung.`;
                     <div style={{ fontSize:13, fontWeight:600, color:'#F5F5F5', marginBottom:12 }}>🌙 Abendessen</div>
                     <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(72px,1fr))', gap:8 }}>
                       {DINNER_SLOTS.map(t => {
-                        const full = FULL_SLOTS.includes(t);
+                        const past = isSlotPast(t);
                         return (
-                          <div key={t} onClick={() => !full && setSelTime(t)}
-                            style={{ padding:'9px 4px', borderRadius:10, border:`0.5px solid ${selTime===t?'#6DA544':full?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.1)'}`, background:selTime===t?'rgba(109,165,68,0.12)':'transparent', cursor:full?'not-allowed':'pointer', textAlign:'center', opacity:full?0.4:1, transition:'all 0.15s' }}>
+                          <div key={t} onClick={() => !past && setSelTime(t)}
+                            style={{ padding:'9px 4px', borderRadius:10, border:`0.5px solid ${selTime===t?'#6DA544':past?'rgba(255,255,255,0.05)':'rgba(255,255,255,0.1)'}`, background:selTime===t?'rgba(109,165,68,0.12)':'transparent', cursor:past?'not-allowed':'pointer', textAlign:'center', opacity:past?0.4:1, transition:'all 0.15s' }}>
                             <div style={{ fontSize:13, fontWeight:600, color:selTime===t?'#6DA544':'#F5F5F5' }}>{t}</div>
-                            <div style={{ fontSize:10, color:'#555', marginTop:2 }}>{full?'Voll':'Frei'}</div>
+                            <div style={{ fontSize:10, color:'#555', marginTop:2 }}>{past?'Vergangen':'Frei'}</div>
                           </div>
                         );
                       })}
