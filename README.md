@@ -10,31 +10,31 @@ A modern restaurant website built with a focus on user experience, responsive de
 
 ### 🏠 Home
 
-![Home](images/home.png)
+<img src="images/home.png" width="850">
 
 ---
 
 ### 🍕 Menu
 
-![Menu](images/menu.png)
+<img src="images/menu.png" width="850">
 
 ---
 
 ### 🖼️ Gallery
 
-![Gallery](images/gallery.png)
+<img src="images/gallery.png" width="850">
 
 ---
 
 ### 👨‍🍳 About
 
-![About](images/about.png)
+<img src="images/about.png" width="850">
 
 ---
 
 ### 📞 Contact
 
-![Contact](images/contact.png)
+<img src="images/contact.png" width="850">
 
 ---
 
