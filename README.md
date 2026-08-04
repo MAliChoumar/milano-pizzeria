@@ -8,13 +8,33 @@ A modern restaurant website built with a focus on user experience, responsive de
 
 ## 📸 Preview
 
-> Screenshots will be added soon.
+### 🏠 Home
 
-<!--
 ![Home](images/home.png)
+
+---
+
+### 🍕 Menu
+
 ![Menu](images/menu.png)
+
+---
+
+### 🖼️ Gallery
+
 ![Gallery](images/gallery.png)
--->
+
+---
+
+### 👨‍🍳 About
+
+![About](images/about.png)
+
+---
+
+### 📞 Contact
+
+![Contact](images/contact.png)
 
 ---
 
