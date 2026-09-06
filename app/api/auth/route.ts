@@ -45,14 +45,12 @@ export async function POST(request: NextRequest) {
       result.token,
       {
         path: '/',
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7,
       }
     );
-
-    console.log('COOKIE SET:', result.token);
 
     return response;
   } catch (error) {
@@ -77,14 +75,9 @@ export async function GET(request: NextRequest) {
     const cookieToken =
       request.cookies.get('admin_token')?.value;
 
-    console.log('AUTH HEADER:', authHeader);
-    console.log('COOKIE TOKEN:', cookieToken);
-
     const token =
       authHeader?.replace('Bearer ', '') ||
       cookieToken;
-
-    console.log('FINAL TOKEN:', token);
 
     if (!token) {
       return NextResponse.json(
@@ -97,8 +90,6 @@ export async function GET(request: NextRequest) {
     }
 
     const admin = await verifyAdminToken(token);
-
-    console.log('ADMIN:', admin);
 
     if (!admin) {
       return NextResponse.json(

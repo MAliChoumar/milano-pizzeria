@@ -1,175 +1,120 @@
-# 🍕 Milano Pizzeria Duisburg — Premium Restaurant Platform
+# 🍕 Milano Pizzeria Duisburg
 
-> Vollständige Next.js 14 Restaurant-Plattform mit Online-Bestellung, Reservierungssystem und Admin-Dashboard.
+Restaurant platform built and deployed for a business in Duisburg, Germany.
+German-language, mobile-first, and running in production.
+
+[![Live](https://img.shields.io/badge/Status-LIVE_in_production-b8f03c?style=flat-square)](https://milano-pizzeria-duisburg.dev/)
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+
+🌐 **[milano-pizzeria-duisburg.dev →](https://milano-pizzeria-duisburg.dev/)**
 
 ---
 
-## ⚡ Quick Start
+## What it does
+
+**Menu & gallery** — server-rendered German pages with image and video media,
+built for phones first, since that is how guests actually browse a restaurant.
+
+**Table reservation** — guests pick a date, time and party size on the site.
+The request is then handed to WhatsApp pre-filled, so the guest only has to
+press send. This was chosen over a full booking backend on purpose: the
+restaurant has no staff to watch a dashboard, and the reservation needs to land
+where they already work all day.
+
+**Ordering** — the *Jetzt bestellen* button hands off to the restaurant's
+existing legacy ordering site, which handles payment. **No payment is processed
+by this application.**
+
+**Legal pages** — Impressum and Datenschutz, as required for a commercial site
+in Germany (TMG / DSGVO).
+
+**Admin area** — JWT-protected dashboard listing reservations.
+
+---
+
+## Screenshots
+
+| Home | Menu |
+|:---:|:---:|
+| <img src="docs/screenshots/home.png" width="420"> | <img src="docs/screenshots/menu.png" width="420"> |
+
+| Gallery | About |
+|:---:|:---:|
+| <img src="docs/screenshots/gallery.png" width="420"> | <img src="docs/screenshots/about.png" width="420"> |
+
+<p align="center"><img src="docs/screenshots/contact.png" width="420"></p>
+
+---
+
+## Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Database | PostgreSQL via Drizzle ORM |
+| Motion | Framer Motion, GSAP |
+| Hosting | Vercel (`fra1` — Frankfurt, closest region to the customers) |
+
+---
+
+## Engineering notes
+
+- **Security headers** are set at the edge in `vercel.json`:
+  `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy: strict-origin-when-cross-origin`, and a `Permissions-Policy`
+  that denies camera, microphone and geolocation.
+- **No secret has a fallback value.** A build missing `JWT_SECRET` or
+  `ADMIN_PASSWORD` denies every login instead of quietly accepting a default
+  that anyone reading this repository could see.
+- The admin session cookie is `httpOnly`, and `secure` in production.
+- Nothing that could identify a session is written to the server log.
+
+### Known limitations
+
+Listed because they are real, not because they are finished work:
+
+- The admin token is kept in `localStorage`, which is readable by any XSS on the
+  page. Moving to cookie-only auth is the correct fix and has not been done.
+- Stripe and PayPal scaffolding exists under `lib/utils/` and `app/api/`, left
+  over from an earlier plan. It is not wired to any UI, because payment happens
+  on the legacy site. It should be removed rather than left to rot.
+- `@supabase/supabase-js` is still in `package.json` after the reservation flow
+  was rewritten around WhatsApp. It is unused.
+
+---
+
+## Running locally
 
 ```bash
-# 1. Abhängigkeiten installieren
 npm install
-
-# 2. Umgebungsvariablen konfigurieren
-cp .env.example .env.local
-# → Füllen Sie alle Variablen in .env.local aus
-
-# 3. Datenbank erstellen
-npm run db:generate
+cp .env.example .env.local    # fill in real values
 npm run db:migrate
-
-# 4. Beispieldaten laden
-npx tsx lib/db/seed.ts
-
-# 5. Entwicklungsserver starten
 npm run dev
 ```
 
-Öffnen Sie [http://localhost:3000](http://localhost:3000) im Browser.
-
----
-
-## 📁 Projektstruktur
-
-```
-milano-pizzeria/
-├── app/
-│   ├── (main)/                   # Öffentliche Seiten
-│   │   ├── page.tsx              # Startseite
-│   │   ├── menu/page.tsx         # Speisekarte
-│   │   ├── order/page.tsx        # Online Bestellen
-│   │   ├── reservation/page.tsx  # Tisch Reservieren
-│   │   ├── gallery/page.tsx      # Galerie
-│   │   ├── about/page.tsx        # Über uns
-│   │   ├── contact/page.tsx      # Kontakt
-│   │   └── layout.tsx            # Navbar + Footer
-│   ├── (admin)/
-│   │   └── dashboard/page.tsx    # Admin Dashboard
-│   ├── api/
-│   │   ├── orders/route.ts       # Bestellungen API
-│   │   ├── reservations/route.ts # Reservierungen API
-│   │   ├── menu/route.ts         # Speisekarte API
-│   │   ├── auth/route.ts         # Admin Authentifizierung
-│   │   ├── contact/route.ts      # Kontaktformular API
-│   │   ├── analytics/route.ts    # Dashboard Statistiken
-│   │   └── stripe/webhook/       # Stripe Webhook
-│   ├── globals.css               # Design System
-│   └── layout.tsx                # Root Layout + SEO
-├── components/
-│   └── shared/
-│       ├── Navbar.tsx            # Navigation
-│       └── Footer.tsx            # Footer + Newsletter
-├── lib/
-│   ├── db/
-│   │   ├── schema.ts             # PostgreSQL Schema (Drizzle ORM)
-│   │   ├── index.ts              # DB Connection Pool
-│   │   └── seed.ts               # Beispieldaten
-│   └── utils/
-│       ├── auth.ts               # JWT + bcrypt
-│       ├── email.ts              # Nodemailer Templates
-│       ├── stripe.ts             # Stripe Integration
-│       └── order.ts              # Berechnungen + Validierung
-├── store/
-│   └── cartStore.ts              # Zustand Cart Store
-├── types/
-│   └── index.ts                  # TypeScript Types
-├── public/
-│   └── manifest.json             # PWA Manifest
-├── .env.example                  # Umgebungsvariablen
-├── next.config.js                # Next.js Konfiguration
-├── tailwind.config.ts            # Tailwind Design System
-├── drizzle.config.ts             # Drizzle Kit Config
-├── tsconfig.json                 # TypeScript Config
-└── vercel.json                   # Deployment Config
-```
-
----
-
-## 🛠 Tech Stack
-
-| Kategorie    | Technologie              |
-|-------------|--------------------------|
-| Framework   | Next.js 14 (App Router)  |
-| Sprache     | TypeScript               |
-| Styling     | Tailwind CSS             |
-| Animationen | Framer Motion            |
-| Datenbank   | PostgreSQL               |
-| ORM         | Drizzle ORM              |
-| Auth        | JWT + bcryptjs           |
-| Zahlungen   | Stripe + PayPal          |
-| E-Mail      | Nodemailer               |
-| State       | Zustand                  |
-| Deployment  | Vercel                   |
-
----
-
-## 🌐 Seiten
-
-| Route           | Beschreibung              |
-|----------------|---------------------------|
-| `/`            | Startseite (Hero, Gerichte, Reviews, Location) |
-| `/menu`        | Speisekarte mit Filter und Warenkorb |
-| `/order`       | Online Bestellformular mit Checkout |
-| `/reservation` | Tischreservierung (4-Schritt-Wizard) |
-| `/gallery`     | Bildergalerie mit Lightbox |
-| `/about`       | Geschichte, Team, Timeline |
-| `/contact`     | Kontaktformular + Karte   |
-| `/admin/dashboard` | Admin-Panel (Login erforderlich) |
-
----
-
-## 🔑 Admin Zugang (nach Seed)
-
-```
-URL:      http://localhost:3000/admin/dashboard
-E-Mail:   admin@milano-pizzeria-duisburg.de
-Passwort: REDACTED_SET_VIA_ENV
-```
-
----
-
-## 🎁 Gutscheincodes
-
-| Code       | Rabatt |
-|-----------|--------|
-| `MILANO10` | 10%   |
-| `WELCOME5` | 5%    |
-| `PIZZA20`  | 20%   |
-
----
-
-## 🚀 Deployment auf Vercel
+Requires PostgreSQL. Every variable the app reads is listed in `.env.example`.
 
 ```bash
-# Vercel CLI installieren
-npm i -g vercel
-
-# Projekt deployen
-vercel
-
-# Produktions-Deployment
-vercel --prod
+npm run type-check    # tsc --noEmit
+npm run lint
+npm run build
 ```
 
-Konfigurieren Sie alle Umgebungsvariablen aus `.env.example` in den Vercel-Projekteinstellungen.
-
-### Stripe Webhook
-
-Nach dem Deployment den Webhook in Stripe konfigurieren:
-```
-URL:     https://ihre-domain.de/api/stripe/webhook
-Events:  payment_intent.succeeded, payment_intent.payment_failed, charge.refunded
-```
+Seeding admin users requires `SEED_ADMIN_PASSWORD` to be set; the script refuses
+to run without it.
 
 ---
 
-## 📧 Kontakt
+## Author
 
-Milano Pizzeria Duisburg  
-📍 Musterstraße 42, 47051 Duisburg  
-📞 +49 203 123 4567  
-✉️ info@milano-pizzeria-duisburg.de  
+**Mohamad Ali Choumar** — Software Engineering student, University of Duisburg-Essen
 
----
+[Portfolio](https://choumar.is-a.dev) · [LinkedIn](https://www.linkedin.com/in/mohamad-ali-choumar-b425693a9/) · [GitHub](https://github.com/MAliChoumar)
 
-*Built with ❤️ and 🍕*
+## License
+
+MIT

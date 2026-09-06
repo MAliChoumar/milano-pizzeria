@@ -11,7 +11,11 @@ async function seed() {
 
   // ─── Admin Users ────────────────────────────────────────────────────────────
   console.log('👤 Creating admin users...');
-  const passwordHash = await bcrypt.hash('REDACTED_SET_VIA_ENV', 12);
+  const seedPassword = process.env.SEED_ADMIN_PASSWORD;
+  if (!seedPassword) {
+    throw new Error('SEED_ADMIN_PASSWORD is required to seed admin users');
+  }
+  const passwordHash = await bcrypt.hash(seedPassword, 12);
   await db.insert(adminUsers).values([
     { name: 'Antonio Marchetti', email: 'admin@milano-pizzeria-duisburg.de', passwordHash, role: 'superadmin', permissions: ['all'], isActive: true },
     { name: 'Manager',           email: 'manager@milano-pizzeria-duisburg.de', passwordHash, role: 'manager', permissions: ['orders', 'reservations', 'menu'], isActive: true },

@@ -1,18 +1,34 @@
 // ─── lib/utils/auth.ts ─────────────────────────────────────────────
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || 'REDACTED_SET_VIA_ENV';
-
 const JWT_EXPIRES = '7d';
 
 const ADMIN_EMAIL = 'admin@milano-pizzeria.de';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'REDACTED_SET_VIA_ENV';
+
+// Read the secrets at call time and never fall back to a literal. A build that
+// is missing either value must refuse every login instead of accepting one that
+// anyone reading this repository already knows.
+function authConfig() {
+  const secret = process.env.JWT_SECRET;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!secret || !password) {
+    console.error(
+      'Auth is not configured: JWT_SECRET and ADMIN_PASSWORD must both be set.'
+    );
+    return null;
+  }
+
+  return { secret, password };
+}
 
 // Verify admin token
 export async function verifyAdminToken(token: string) {
+  const config = authConfig();
+  if (!config) return null;
+
   try {
-    const payload = jwt.verify(token, JWT_SECRET) as {
+    const payload = jwt.verify(token, config.secret) as {
       adminId: string;
       role: string;
       email: string;
@@ -35,9 +51,12 @@ export async function loginAdmin(
   email: string,
   password: string
 ) {
+  const config = authConfig();
+  if (!config) return null;
+
   if (
     email.toLowerCase().trim() !== ADMIN_EMAIL ||
-    password !== ADMIN_PASSWORD
+    password !== config.password
   ) {
     return null;
   }
@@ -55,13 +74,9 @@ export async function loginAdmin(
       role: admin.role,
       email: admin.email,
     },
-    JWT_SECRET,
+    config.secret,
     { expiresIn: JWT_EXPIRES }
   );
 
   return { admin, token };
-}
-
-export async function hashPassword(password: string) {
-  return password;
 }
